@@ -1,0 +1,2 @@
+data_to_dictionary is a library which is use to convert grow96s output into a dictionary.
+The only processing this does is to screen for the mutants that are in an argument, and do remove NA time points.
