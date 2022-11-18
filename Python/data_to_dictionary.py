@@ -8,6 +8,7 @@ from tqdm.auto import tqdm
 def __run_r_script():
     pass
 
+
 # TODO: add functionality
 def __quality_control(data):
     # TODO: Add if statment
@@ -229,7 +230,9 @@ def load_growth_well_dictionary(
 def _save_growth_well_dictionary(growth_well_dictionary):
     try:
         # Save the dictionary from load_growth_well_dictionary as a .pickle file.
-        pickle_out = open("data/pickled_data/growth_well_dictionary.pickle", "wb")
+        pickle_out = open(
+            "Python/data/pickled_data/growth_well_dictionary.pickle", "wb"
+        )
         pickle.dump(growth_well_dictionary, pickle_out)
         pickle_out.close()
     except:

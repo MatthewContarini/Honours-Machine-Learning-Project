@@ -53,10 +53,7 @@ class GrowthWell:
         self.drugs = drugs
         self.media_concentration = media_concentration
         self.strain = strain
-        # readings_od is a dictionary with the minutes as the key, and the
-        # OD readings as the values.
         self.readings_od = readings_od
-        self.read_interval = self.__caluculate_start_and_read_interval()
 
     def __str__(self):
         return (
@@ -66,11 +63,27 @@ class GrowthWell:
         )
 
     def __repr__(self):
-        return f"{self.plate}, {self.replicate}, {self.row96}, {self.column96}\n"
+        return f"A growth Well: {self.plate}, {self.replicate}, {self.row96}, {self.column96}\n"
 
     @property
     def number_of_reads(self):
         return len(self.readings_od)
+
+    @property
+    def start_time(self):
+        # Get first element in the readings_od dictionary.
+        return next(iter(self.readings_od.keys()))
+
+    def get_read_interval(self, safe=True):
+        safe = False  # TODO as mentioned below, do a safe check here. (DELETE LINE)
+        if safe:
+            # TODO implement a safe way of doing this.
+            pass
+        else:
+            iterater_of_dictionary = iter(self.readings_od.keys())
+            first_time = next(iterater_of_dictionary)
+            second_time = next(iterater_of_dictionary)
+            return second_time - first_time
 
     def get_ods(self, time_in_minutes=None):
         """
@@ -97,19 +110,6 @@ class GrowthWell:
     def add_OD_and_time(self, time, optical_density):
         """Append a {time : OD} to the readings_od"""
         self.readings_od.update({time: optical_density})
-
-    # TODO: Make more efficient / Comment better.
-    def __caluculate_start_and_read_interval(self):
-        read_interval = None
-        for_counter = 0
-        for current_key, current_value in self.readings_od.items():
-            if for_counter == 0:
-                data_start_time = current_key  # First time point.
-            elif for_counter == 1:
-                read_interval = current_key - data_start_time  # Difference.
-                break
-        # set the read_interval
-        self.read_interval = read_interval
 
     def delete_after(self, time):
         keys_to_keep = []

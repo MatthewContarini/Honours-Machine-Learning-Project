@@ -37,21 +37,6 @@ class GrowthWells:
     def get_growth_well(self, key):
         return self.growth_wells[key]
 
-    def _get_number_of_od_reads(self):
-        counter = 0
-        for value in self.growth_wells.values():
-            if counter != 0:
-                if read_number != value.number_of_reads:
-                    warnings.warn(
-                        "The number of reads were not the same in each "
-                        + "growth well.\nCall truncate() to truncate first."
-                    )
-                    return None
-            else:
-                counter += 1
-                read_number = value.number_of_reads
-        return read_number
-
     # Iterate over each growth well and set the starting time to 0 and adjust
     # accordingly.
     def set_start_time(self, start_time=0):
@@ -101,10 +86,10 @@ class GrowthWells:
         self.align_times(multiple)
         self.truncate(cut_position)
 
-    def generate_data_frame(self):
-        number_of_od_reads = self._get_number_of_od_reads()
+    # comment
+    def generate_data_frame(self, safe):
         column_names = ["Strain", "Date", "Media Concentration"]
-        column_names += list(range(number_of_od_reads))
+        column_names += self.generate_data_frame_column_times(safe)
         list_of_od_reads = []
         for value in self.growth_wells.values():
             list_of_od_reads.append(value.generate_row())
@@ -112,6 +97,41 @@ class GrowthWells:
 
         data_frame_to_return.columns = column_names
         return data_frame_to_return
+
+    def generate_data_frame_column_times(self, safe):
+        wells_information = self.get_number_reads_start_time_read_interval(safe)
+        number_of_reads = wells_information[0]
+        start_time = wells_information[1]
+        read_interval = wells_information[2]
+        column_times = range(
+            start_time, (number_of_reads * read_interval), read_interval
+        )
+        return column_times
+
+    def get_number_reads_start_time_read_interval(self, safe):
+        if safe:
+            self.check_if_readings_standardised()
+        a_growth_well = next(iter(self.growth_wells.values()))
+        return (
+            a_growth_well.number_of_reads,
+            a_growth_well.start_time,
+            a_growth_well.get_read_interval(safe=False),
+        )  # Already checked if safe is True
+
+    def check_if_readings_standardised(self):
+        counter = 0
+        for value in self.growth_wells.values():
+            if counter == 1:
+                if current_readings != value.readings_od.keys():
+                    raise Exception(
+                        "The number of reads, read intervals, or the start times of"
+                        + " the growth wells are different.  "
+                        + "Data align them before calling this function."
+                    )
+            else:
+                current_readings = value.readings_od.keys()
+                counter += 1
+        return True
 
     @property
     def strains(self):
