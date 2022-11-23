@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class GrowthWell:
     """
     This class represents a unique growth well over time.
@@ -157,10 +160,58 @@ class GrowthWell:
         # Change the read interval
         self.read_interval = multiple
 
-    def generate_row(self):
-        return (
-            [self.strain]
-            + [self.date]
-            + [self.media_concentration]
-            + list(self.get_ods())
-        )
+    def generate_row(self, data_type):
+        if data_type == "ABS_OD":
+            return (
+                [self.strain]
+                + [self.date]
+                + [self.media_concentration]
+                + [self.drugs]
+                + [self.plate]
+                + [self.plate_reader]
+                + [self.replicate]
+                + [self.row96]
+                + [self.column96]
+                + list(self.get_ods())
+            )
+        elif data_type == "RGR":
+            return (
+                [self.strain]
+                + [self.date]
+                + [self.media_concentration]
+                + [self.drugs]
+                + [self.plate]
+                + [self.plate_reader]
+                + [self.replicate]
+                + [self.row96]
+                + [self.column96]
+                + list(self.get_relative_growth_rates().values())
+            )
+
+    def _calculate_single_relative_growth_rate(
+        self,
+        current_od,
+        previous_od,
+        current_time,
+        previous_time,
+    ):
+        return np.log(current_od / previous_od) / (current_time - previous_time)
+
+    def get_relative_growth_rates(self):
+        times = []
+        relative_growth_rates = []
+        read_interval = self.get_read_interval()
+        for current_time in self.readings_od.keys():
+            if current_time != self.start_time:  # Not the first iteration.
+                previous_time = current_time - read_interval
+                current_od = self.readings_od.get(current_time)
+                previous_od = self.readings_od.get(previous_time)
+                relative_growth_rate = self._calculate_single_relative_growth_rate(
+                    current_od,
+                    previous_od,
+                    current_time,
+                    previous_time,
+                )
+                times.append(read_interval / 2 + previous_time)
+                relative_growth_rates.append(relative_growth_rate)
+        return dict(zip(times, relative_growth_rates))

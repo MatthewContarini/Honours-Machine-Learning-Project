@@ -87,25 +87,51 @@ class GrowthWells:
         self.truncate(cut_position)
 
     # comment
-    def generate_data_frame(self, safe):
-        column_names = ["Strain", "Date", "Media Concentration"]
-        column_names += self.generate_data_frame_column_times(safe)
-        list_of_od_reads = []
-        for value in self.growth_wells.values():
-            list_of_od_reads.append(value.generate_row())
-        data_frame_to_return = pd.DataFrame(list_of_od_reads)
-
-        data_frame_to_return.columns = column_names
+    # TODO this is not the best way to define the column names from the growth well
+    def generate_data_frame(self, data_type, safe):
+        column_names = [
+            "Strain",
+            "Date",
+            "Media Concentration",
+            "Drug",
+            "Plate",
+            "Plate Reader",
+            "Replicate",
+            "Row",
+            "Column",
+        ]
+        column_names += self.generate_data_frame_column_times(data_type, safe)
+        if data_type == "ABS_OD":
+            list_of_od_reads = []
+            for value in self.growth_wells.values():
+                list_of_od_reads.append(value.generate_row(data_type))
+            data_frame_to_return = pd.DataFrame(list_of_od_reads)
+            data_frame_to_return.columns = column_names
+        elif data_type == "RGR":
+            list_of_rgr = [] 
+            for value in self.growth_wells.values():
+                list_of_rgr.append(value.generate_row(data_type))
+            data_frame_to_return = pd.DataFrame(list_of_rgr)
+            data_frame_to_return.columns = column_names 
         return data_frame_to_return
 
-    def generate_data_frame_column_times(self, safe):
+    def generate_data_frame_column_times(self, data_type, safe):
         wells_information = self.get_number_reads_start_time_read_interval(safe)
         number_of_reads = wells_information[0]
         start_time = wells_information[1]
         read_interval = wells_information[2]
-        column_times = range(
-            start_time, (number_of_reads * read_interval), read_interval
-        )
+        if data_type == "ABS_OD":
+            column_times = range(
+                start_time, (number_of_reads * read_interval), read_interval
+            )
+        elif data_type == "RGR":
+            column_times = range(
+                start_time,
+                (number_of_reads * read_interval) - read_interval,
+                read_interval,  # FIX hard CODING TODO :UHU
+            )
+        else:
+            raise Exception("Incorrect Setting")
         return column_times
 
     def get_number_reads_start_time_read_interval(self, safe):
