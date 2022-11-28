@@ -1,5 +1,8 @@
 from growth_wells import GrowthWells
 from PCA import *
+from KPCA import *
+from data_to_dictionary import *
+from data_visualisation import *
 
 # Import Settings
 ians_summer_data_mutants = ["RIF2_B5", "RIF2_F4", "RIF3_1B10", "RIF4_1E6"]
@@ -61,15 +64,16 @@ data.truncate(1380)
 
 # print(data.get_growth_well(("mainMutants", 1, "B", 5)).get_relative_growth_rates())
 
-growth_wells_data_frame = data.generate_data_frame(data_type="RGR", safe=True)
-# growth_wells_data_frame = growth_wells_data_frame.loc[
-#     growth_wells_data_frame["Media Concentration"] == 0.1
-# ]
+growth_wells_dataframe = data.generate_dataframe(data_type="ABS_OD", safe=True)
 
-run_and_show_pca(
-    growth_wells_data_frame,
-    x=1,
-    y=2,
-    target="Strain",
-    features=list(range(0, 1380, 15)),
-)
+
+# growth_wells_dataframe.to_csv("growth_wells_dataframe", encoding="utf-8", index=False)
+
+# wrapper = PCA_for_growth_well_data(
+#     growth_wells_dataframe, ["Media Concentration", "Strain"], list(range(0, 1380, 15))
+# )
+
+
+# show_pca_3d(wrapper, "Strain")
+
+# show_pca_statistics(wrapper)

@@ -33,7 +33,7 @@ def __screen_data(data, mutants_to_analyse):
     return screened_data
 
 
-def __data_frame_into_list_of_growth_wells(grow96_data, verbose):
+def __dataframe_into_list_of_growth_wells(grow96_data, verbose):
     # Check if MediaConcentration or Drug columns exist in the data frame.
     media_concentration_exits = False
     drug_exists = False
@@ -112,7 +112,7 @@ def generate_growth_well_dictionary(name, file_path, mutants_to_analyse, verbose
     # Quality control the data
     __quality_control(screened_data)
     # Generate the dictionary of growth wells
-    dictionary_of_growth_wells = __data_frame_into_list_of_growth_wells(
+    dictionary_of_growth_wells = __dataframe_into_list_of_growth_wells(
         screened_data, verbose
     )
     return dictionary_of_growth_wells

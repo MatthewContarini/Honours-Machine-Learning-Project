@@ -88,7 +88,7 @@ class GrowthWells:
 
     # comment
     # TODO this is not the best way to define the column names from the growth well
-    def generate_data_frame(self, data_type, safe):
+    def generate_dataframe(self, data_type, safe):
         column_names = [
             "Strain",
             "Date",
@@ -100,22 +100,22 @@ class GrowthWells:
             "Row",
             "Column",
         ]
-        column_names += self.generate_data_frame_column_times(data_type, safe)
+        column_names += self.generate_dataframe_column_times(data_type, safe)
         if data_type == "ABS_OD":
             list_of_od_reads = []
             for value in self.growth_wells.values():
                 list_of_od_reads.append(value.generate_row(data_type))
-            data_frame_to_return = pd.DataFrame(list_of_od_reads)
-            data_frame_to_return.columns = column_names
+            dataframe_to_return = pd.DataFrame(list_of_od_reads)
+            dataframe_to_return.columns = column_names
         elif data_type == "RGR":
-            list_of_rgr = [] 
+            list_of_rgr = []
             for value in self.growth_wells.values():
                 list_of_rgr.append(value.generate_row(data_type))
-            data_frame_to_return = pd.DataFrame(list_of_rgr)
-            data_frame_to_return.columns = column_names 
-        return data_frame_to_return
+            dataframe_to_return = pd.DataFrame(list_of_rgr)
+            dataframe_to_return.columns = column_names
+        return dataframe_to_return
 
-    def generate_data_frame_column_times(self, data_type, safe):
+    def generate_dataframe_column_times(self, data_type, safe):
         wells_information = self.get_number_reads_start_time_read_interval(safe)
         number_of_reads = wells_information[0]
         start_time = wells_information[1]
