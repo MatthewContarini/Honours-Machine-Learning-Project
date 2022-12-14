@@ -1,0 +1,14 @@
+﻿Strain,Species,Gene,Gene Cluster,Loci (Relative to Ecoli),Base Change,Amino Acid Change,Type of Change
+R8,Escherichia coli,rpoB,1,1532,T -> C,L -> P,transition
+R17,Escherichia coli,rpoB,1,1534,T -> C,S -> P,transition
+R3,Escherichia coli,rpoB,1,1535,C -> T,S -> F,transition
+R36,Escherichia coli,rpoB,1,1547,A -> G,D -> G,transition
+R9,Escherichia coli,rpoB,1,1565,C -> T,S -> F,transition
+R2,Escherichia coli,rpoB,1,1576,C -> A,H -> N,transversion
+R12,Escherichia coli,rpoB,1,1576,C -> T,H -> Y,transition
+R19,Escherichia coli,rpoB,1,1586,G -> T,R -> L,transversion
+R26,Escherichia coli,rpoB,1,1592,C -> T,S -> F,transition
+R14,Escherichia coli,rpoB,2,1714,A -> C,I -> L,transversion
+R18,Escherichia coli,rpoB,2,1714,A -> T,I -> F,transversion
+R30,Escherichia coli,rpoB,2,1715,T -> G,I -> S,transversion
+MG1655,Escherichia coli,None,None,None,None,None,None
