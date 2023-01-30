@@ -1,0 +1,49 @@
+import pygame
+import random
+
+# Initialize Pygame
+pygame.init()
+
+# Set up the window
+screen = pygame.display.set_mode((400, 300))
+
+# Set up the ball variables
+x = 150
+y = 150
+radius = 20
+color = (255, 0, 0)
+speed_x = 5
+speed_y = 5
+
+# Start the game loop
+running = True
+while running:
+    # Handle events
+    pygame.time.delay(10)
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running = False
+
+    # Update the ball position
+    x += speed_x
+    y += speed_y
+
+    # Check for collisions with the walls
+    if x + radius >= 400 or x - radius <= 0:
+        speed_x = -speed_x
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+    if y + radius >= 300 or y - radius <= 0:
+        speed_y = -speed_y
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+
+    # Clear the screen
+    screen.fill((255, 255, 255))
+
+    # Draw the ball
+    pygame.draw.circle(screen, color, (x, y), radius)
+
+    # Update the screen
+    pygame.display.update()
+
+# Quit Pygame
+pygame.quit()
