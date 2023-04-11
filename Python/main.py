@@ -37,7 +37,7 @@ data_specifciation = {
     #     ians_summer_data_mutants,
     # ),
     "alicias_new_data": (
-        "data/csv_data/Alicias_New_Data.csv",
+        "G:/My Drive/Uni/Honours/Honours-Machine-Learning-Project/Python/data/csv_data/Alicias_New_Data.csv",
         alicias_mutants_new,
     ),
     # "alicias_honours_data": (
@@ -61,7 +61,7 @@ data.truncate(1380)
 
 # print(data.get_growth_well(("mainMutants", 1, "B", 5)).get_relative_growth_rates())
 
-growth_wells_dataframe = data.generate_dataframe(data_type="RGR", safe=True)
+growth_wells_dataframe = data.generate_dataframe(data_type="ABS_OD", safe=True)
 
 concnetrations = [0.0005, 0.001, 0.002, 0.003, 0.004, 0.005, 0.006, 0.008, 0.01]
 names = ['0-0005', '0-001', '0-002', '0-003', '0-004', '0-005', '0-006', '0-008', '0-01']
@@ -70,7 +70,7 @@ for i in concnetrations:
     growth_wells_dataframe_p = growth_wells_dataframe.loc[growth_wells_dataframe['Media Concentration'] == i]
     print(growth_wells_dataframe_p.head())
 
-    growth_wells_dataframe_p.to_csv(f"../data_for_colab/proccessed_growth_data/3Min_{names[j]}MC_RGR", encoding="utf-8", index=False)
+    growth_wells_dataframe_p.to_csv(f"G:/My Drive/Uni/Honours/Honours-Machine-Learning-Project/data_for_colab/proccessed_growth_data/3Min_{names[j]}MC_OD", encoding="utf-8", index=False)
     j += 1
 
 # wrapper = PCA_for_growth_well_data(
