@@ -36,8 +36,12 @@ data_specifciation = {
     #     "data/csv_data/Ians_Summer_01_18_to_01_28_Data.csv",
     #     ians_summer_data_mutants,
     # ),
-    "alicias_new_data": (
-        "G:/My Drive/Uni/Honours/Honours-Machine-Learning-Project/Python/data/csv_data/Alicias_New_Data.csv",
+    # "alicias_new_data": (
+    #     "G:/My Drive/Uni/Honours/Honours-Machine-Learning-Project/Python/data/csv_data/Alicias_New_Data.csv",
+    #     alicias_mutants_new,
+    # ),
+        "Test_Data": (
+        "G:/My Drive/Uni/Honours/Honours-Machine-Learning-Project/Python/data/csv_data/Test_Data.csv",
         alicias_mutants_new,
     ),
     # "alicias_honours_data": (
@@ -70,7 +74,7 @@ for i in concnetrations:
     growth_wells_dataframe_p = growth_wells_dataframe.loc[growth_wells_dataframe['Media Concentration'] == i]
     print(growth_wells_dataframe_p.head())
 
-    growth_wells_dataframe_p.to_csv(f"G:/My Drive/Uni/Honours/Honours-Machine-Learning-Project/data_for_colab/proccessed_growth_data/3Min_{names[j]}MC_OD", encoding="utf-8", index=False)
+    growth_wells_dataframe_p.to_csv(f"G:/My Drive/Uni/Honours/Honours-Machine-Learning-Project/data_for_colab/proccessed_growth_data/TEST3Min_{names[j]}MC_OD", encoding="utf-8", index=False)
     j += 1
 
 # wrapper = PCA_for_growth_well_data(
